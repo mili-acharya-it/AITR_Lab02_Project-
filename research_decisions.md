@@ -1,169 +1,73 @@
-# Research Decisions Log
+# Research decisions log
 
-**Project:** Human Trust Calibration in Human-Agent Collaboration for
-Autonomous Research\
-**Researcher:** Mili Acharya\
-**Status:** Initial log --- based only on the uploaded 19-page
-literature review\
-**Last updated:** 2026-10-20
+Literature-to-experiment decisions for *"Does evidence-aware trust calibration help? A simulation study of adaptive trust cues for autonomous research agents"*.
 
-## Evidence labels
+Evidence labels used throughout: **VERIFIED** (checked against the original source or actual execution), **INFERRED** (plausible, needs testing or checking), **UNKNOWN** (missing evidence).
 
--   **VERIFIED** --- directly supported by the current review or a
-    supplied artifact. This means verified against that artifact, not
-    independently verified against the original publication.
--   **INFERRED** --- a reasoned interpretation or proposed next step
-    that still needs testing.
--   **UNKNOWN** --- evidence is missing; do not treat as fact.
+> **Student action:** entries marked `[STUDENT]` need your own judgement or confirmation before submission. The AI assistant drafted this log; you must be able to defend every decision in the viva.
 
-## Current project state
+---
 
-### Scope of the existing review
+## 1. Source review
 
--   **VERIFIED:** The review covers trust calibration in human-agent,
-    human-AI, human-robot, and human-autonomy collaboration.
--   **VERIFIED:** It classifies prior approaches as reliability-based,
-    transparency-based, explanation-based, human-state-based, adaptive,
-    and mutually adaptive.
--   **VERIFIED:** It proposes an evidence-aware adaptive framework for
-    autonomous research, combining research context, agent
-    capability/reliability, evidence quality, human state and reliance,
-    verification requirements, and adaptive communication.
--   **VERIFIED:** Proposed evaluation dimensions include trust
-    calibration, appropriate reliance, verification efficiency,
-    research-output quality, workload, situation awareness, and team
-    performance.
--   **VERIFIED:** The review acknowledges that the framework is
-    conceptual and that its proposed metrics are not a validated
-    measurement scale.
+Acharya, M. (2026). *Human Trust Calibration in Human-Agent Collaboration for Autonomous Research* (literature review, 18 pp., 20 references). It is the evidence base for this study. Its text is not reused here.
 
-### Current gap claims in the review
+## 2. Gap matrix (Prompt 02)
 
--   **VERIFIED (as claims made by the review, not yet independently
-    confirmed):** Limited longitudinal evaluation; insufficient
-    claim-level evidence awareness; limited integration of human-state
-    information with evidence quality and agent reliability; few
-    standardized autonomous-research benchmarks; insufficient attention
-    to both over-trust and under-trust; heterogeneous evaluation
-    measures.
--   **UNKNOWN:** Whether these gaps remain open after a sufficiently
-    comprehensive and current search of the original literature.
--   **UNKNOWN:** Whether an existing system or benchmark already
-    implements the proposed combination of mechanisms.
--   **UNKNOWN:** Which gap is both novel and experimentally testable
-    within the researcher's available time and computing resources.
+| # | Gap (review section) | Origin | Candidate question | Testable computationally? |
+|---|---|---|---|---|
+| G1 | Trust modelled at agent/task level; research agents differ by stage (§8.2, Table 4 "Evidence-aware calibration") | Review's own inference; motivated by [Okamura & Yamada 2020a,b] using situation-level reliability | Does a per-claim, evidence-aware cue reduce mis-calibration and decision cost compared with agent-level or situation-level cues? | **Yes**: simulation with a known ground-truth P(correct) |
+| G2 | Limited longitudinal evaluation (§8.1) | Review inference; de Visser et al. 2020 (theory) | Do cues recover calibration after a reliability change? | Partly: non-stationary simulation (used as analysis A4) |
+| G3 | Under-trust and excessive verification are overlooked (§8.5, Table 4) | Review inference | Does an over-trust-only cue (Okamura & Yamada) cause needless verification? | **Yes**: reliance decomposition |
+| G4 | Human-state integration (§8.3) | Lin et al. 2022 | Does a workload signal improve calibration? | Weak: needs real physiological data. **Rejected** (no data access) |
+| G5 | No autonomous-research benchmarks (§8.4) | Review inference | Build a benchmark | Out of scope for 4 weeks. **Rejected** |
 
-## Decision log
+**Selected:** G1 as primary, with G2 and G3 as pre-specified deeper analyses. Reason: it is the review's central claim (Eqs. 4 and 7: "Agent Reliability ≠ Evidence Quality"), it is testable without human participants, and it has a published, re-implementable baseline. `[STUDENT]`: confirm this ranking matches your own reading of your review.
 
-### D-001 --- Treat the review as the starting artifact, not as proof of novelty
+## 3. Literature-to-experiment bridge (Prompt 03)
 
--   **Status:** Adopted provisionally
--   **Decision:** Use the uploaded review to define the initial
-    conceptual scope, but independently verify the central gap against
-    primary sources and closely neighboring work before claiming
-    novelty.
--   **Reason:** A gap stated in a literature review is a research
-    hypothesis, not proof that no prior work addresses it.
--   **Evidence:** Uploaded review, Sections 3--8 and 12--14; especially
-    the stated research gaps and limitations.
--   **Next actions:** Obtain the literature-search strategy, screening
-    records, reference library, and study-extraction/comparison table if
-    available. Check the most relevant primary studies and newer
-    neighboring work.
--   **Open questions:** What databases and date range were searched?
-    What inclusion/exclusion criteria were used? Were full texts
-    checked? How were claims and limitations extracted?
+| Original paper | Status | What we take | Baseline in this study |
+|---|---|---|---|
+| Okamura & Yamada (2020a), PLOS ONE 15(2) e0229132 | **VERIFIED**: method, protocol and results read from the open-access paper (journals.plos.org) | Detection rule: over-trust iff user chose Auto while P_man > P_auto; TCC fires iff the current *and* ≥1 of the previous 2 checkpoints are flagged. Protocol: 30 checkpoints, auto 0.9 → 0.5 after checkpoint 6 | **Part 1 reproduction** and **B2 Adaptive TCC** |
+| Okamura & Yamada (2020b), IEEE Access 8:220335–220351 | **VERIFIED** (bibliographic record and abstract only) | Adaptive TCCs beat a traditional transparency approach | Motivates B1 vs B2 |
+| Chen et al. (2018) SAT; Akash et al. (2020) | Carried over from the review, **INFERRED** (not re-read) | Transparency = showing the agent's reliability | **B1 Reliability display** (a simplification; not a full SAT implementation) |
+| Pynadath et al. (2019) | Carried over, **INFERRED** | Trust as a history-dependent process | Motivates the experience-based trust update in the simulated user (B0) |
+| Mehrotra et al. (2024), ACM JRC 1(4):26 | **VERIFIED** (bibliographic record) | Warranted/appropriate trust terminology | Metric definitions |
+| Wischnewski et al. (2023), CHI '23 art. 755 | **VERIFIED** (bibliographic record) | Need for behavioural calibration measures | Behavioural metrics (reliance, not self-report) |
 
-### D-002 --- Do not assume the proposed framework is implemented or validated
+## 4. Decisions
 
--   **Status:** Adopted
--   **Decision:** Describe the framework as conceptual until code, a
-    formal algorithm, or experimental outputs establish otherwise.
--   **Reason:** The review itself says empirical validation is still
-    required.
--   **Evidence:** Uploaded review, Sections 9, 10, 14, and 15.
--   **Next actions:** Ask whether any implementation, notebook,
-    prototype, pilot data, or experimental output already exists.
--   **Open questions:** Is the intended contribution a software system,
-    a trust-calibration algorithm, a benchmark, or an empirical
-    comparison?
+| ID | Decision | Reason | Evidence | Status |
+|---|---|---|---|---|
+| D-01 | Remain in the review's area; narrow to G1 | Assignment continuity rule; G1 is the review's main proposal | Review §8.2, §9, §13 | Done |
+| D-02 | **Pathway A** (reproduction + extension), with a controlled comparison inside the extension | A verified published mechanism exists that can be re-implemented | Okamura & Yamada 2020a | Done |
+| D-03 | Use **simulated users**, not human participants | No ethics approval and no time for a user study in 4 weeks; a simulation gives known ground truth (T_warranted), which human studies lack | Assignment §7 allows a "justified equivalent design" | Done. **Main threat to validity**, reported in the paper |
+| D-04 | Reproduce the *mechanism*, not the human numbers | Simulated users cannot reproduce human effect sizes; only qualitative directions (R1, R2) are compared | Paper §4.1 | Done |
+| D-05 | Primary metric = expected decision cost (c = 1 per verification, L = 5 per accepted wrong claim) | Single, decision-relevant quantity that penalises both over- and under-reliance; τ* = 0.8 | Review Eq. 2 & 5 used as secondary metrics | Frozen in `configs/protocol.yaml` |
+| D-06 | Common random numbers: every condition sees the same claims, user and draws per seed; paired Wilcoxon + Holm | Removes between-condition noise; fair comparison | `tests/test_validation.py::test_determinism_and_crn` | Done |
+| D-07 | **Protocol frozen** (configs/protocol.yaml v1.0) before any evaluation-seed run; dev seeds 1000–1004 used only for debugging | Prevent tuning on test results | SHA-256 in `results/logs/protocol_sha256.txt` | Done |
+| D-08 | Pre-run edit: added `reproduction.n_seeds: 10` to the config | The number of reproduction seeds was unspecified; set before the eval run | This log | Done (logged change) |
+| D-09 | Post-dev, pre-eval edit: added the `stage_only` ablation to the sweep analyses (A1–A4) | Without it, A2 (uninformative evidence) cannot tell whether gains come from the evidence term | Dev run output | Done (logged change; no eval results had been viewed) |
+| D-10 | B2 = TCC **without** a reliability display | Isolates the adaptive-cue mechanism. The original study also showed a reliability indicator, so B1 and B2 bracket it | Okamura & Yamada 2020a | `[STUDENT]` accept or rerun with B1+B2 combined |
+| D-11 | Over-trust detection only in B2 (under-trust off) | Faithful to the original: under-trust was defined but not tested there | Okamura & Yamada 2020a | Done |
+| D-12 | Report the R2 reproduction discrepancy (accuracy *does* differ in simulation) rather than tune it away | Integrity; the cause is explainable (no time-pressure model) | `results/reproduction/tests.csv` | Reported in the paper §5.1 |
+| D-13 | Figure 6 label moved | Label overlapped the curves (visual check) | Rendered figure | Done |
+| D-14 | Wall-clock runtime moved from `summary.csv` to `runtime.csv`; gzip written with a fixed timestamp | A clean rerun showed 2 of 39 result files were not byte-identical (timing column, gzip header); the contents were identical | Fresh-copy rerun + SHA-256 comparison | Done: all 39 files now byte-identical |
 
-### D-003 --- Keep agent reliability separate from claim-level evidence quality
+## 5. Evidence ledger for key claims in the paper
 
--   **Status:** Working hypothesis; not yet an experimentally validated
-    design choice
--   **Decision:** Preserve this distinction when designing candidate
-    baselines and metrics.
--   **Reason:** The review argues that an agent can perform a task
-    reliably while a particular generated claim is weakly supported.
--   **Evidence:** Uploaded review, Sections 2.3, 8.2, 9, and 13.
--   **Next actions:** Define observable operational measures for agent
-    reliability, claim support, evidence quality, and appropriate
-    reliance; inspect existing operationalizations in primary studies.
--   **Open questions:** How will claim support be labeled? Who or what
-    establishes the ground truth? How will evidence quality be measured
-    reproducibly?
+| Claim | Label | Source |
+|---|---|---|
+| The evidence-aware cue lowers decision cost vs B0/B1/B2 (−10.8% / −9.6% / −5.9%) | **VERIFIED** (execution) | `results/main/summary.csv`, `comparisons.csv` |
+| It does **not** reduce accepted errors vs B2 (p = 0.18) | **VERIFIED** (execution) | `results/main/comparisons.csv` |
+| The gain disappears when evidence is uninformative (vs stage-only, p = 0.56) | **VERIFIED** (execution) | `results/analysis/A2_uninformative_tests.csv` |
+| No advantage over B2 at low compliance (0.1; p = 0.40) | **VERIFIED** (execution) | `results/analysis/A3_compliance_tests.csv` |
+| Results transfer to real users | **UNKNOWN** | Requires a user study |
+| The stage reliabilities (0.92/0.85/0.75/0.60) are realistic for LLM research agents | **INFERRED** | Illustrative assumption, not measured |
+| The logistic form of P(correct \| stage, evidence) is realistic | **INFERRED**. Also favours the proposed estimator, which uses the same form | Threat to validity, paper §6 |
 
-### D-004 --- Avoid selecting metrics before defining the experiment
+## 6. Next actions `[STUDENT]`
 
--   **Status:** Adopted provisionally
--   **Decision:** Treat the review's metrics as candidate dimensions,
-    not as finalized validated measures.
--   **Reason:** Metric definitions, denominators, labels, and baselines
-    must match the task and data.
--   **Evidence:** Uploaded review, Sections 9--10 and 14.
--   **Next actions:** Specify the task, unit of analysis, outcomes,
-    ground truth, comparison conditions, and evaluation protocol before
-    finalizing metrics.
--   **Open questions:** Will the study use simulated users, a
-    human-participant experiment, retrospective interaction logs, or a
-    benchmark-only evaluation?
-
-## Evidence still required
-
-1.  **Review provenance:** Search queries, databases, search dates, date
-    range, inclusion/exclusion criteria, screening counts, and any
-    protocol.
-2.  **Study-level evidence:** Reference manager export (BibTeX/RIS),
-    full texts where available, and the review's extraction/comparison
-    spreadsheet.
-3.  **Implementation state:** Existing code, notebooks, repository
-    archive, configuration files, and dependency/environment
-    information, if any.
-4.  **Experiment state:** Dataset files and licenses, annotation guide,
-    pilot outputs, logs, metric calculations, plots, and random seeds,
-    if any.
-5.  **Feasibility constraints:** Available compute, access to human
-    participants, expected deadline, and whether external APIs or paid
-    services are allowed.
-
-## Next actions (in order)
-
-1.  Collect review provenance and study-level evidence.
-2.  Verify the strongest neighboring work and narrow the candidate gap.
-3.  Map each relevant study to its method, data, outcome, limitation,
-    and possible baseline.
-4.  Choose one feasible research question and define falsifiable
-    hypotheses.
-5.  Specify a reproducible experimental protocol before implementation.
-6.  Implement and test a baseline; record environment, seeds, and exact
-    commands.
-7.  Run planned comparisons and report all results, including negative
-    results and failures.
-8.  Update this log whenever a decision changes, recording the reason
-    and supporting evidence.
-
-## Change-entry template
-
-### D-XXX --- Short decision title
-
--   **Date:**
--   **Status:** Proposed / Adopted / Rejected / Superseded
--   **Decision:**
--   **Reason:**
--   **Evidence/source:** Include exact citation, file name,
-    page/section, URL/DOI where verified, or output path.
--   **Alternatives considered:**
--   **Risks/limitations:**
--   **Next action:**
--   **Open questions:**
+1. Re-read the papers marked INFERRED in §3 and update this table.
+2. Decide on D-10.
+3. Optional high-value follow-ups (ranked by information gained per unit cost): (i) a misspecified generator, where the estimator's form ≠ the true form; (ii) B1 + B2 combined; (iii) a small pilot with 5–10 real participants on the same claim stream.
