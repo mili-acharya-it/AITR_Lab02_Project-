@@ -1,0 +1,8 @@
+condition,runtime_ms_per_session
+no_cue,0.7538919599937799
+reliability_display,1.3250062999918555
+adaptive_tcc,0.9114641799965284
+evidence_aware,5.0552128399908725
+stage_only,0.8353147399816407
+evidence_only,4.833665999997265
+oracle,0.7647137199978715

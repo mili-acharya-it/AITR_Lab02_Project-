@@ -1,0 +1,5 @@
+test,mean_diff,p_value,n
+R1a manual_rate bad: tcc - no_tcc,0.4433125,0.0,2000
+R1b manual_rate no_tcc: bad - good,0.1613333333333333,2.379591091055046e-183,2000
+R1c manual_rate tcc: bad - good,0.6046458333333333,0.0,2000
+R2 accuracy bad: tcc - no_tcc,0.10554166666666666,6.862982711843473e-298,2000

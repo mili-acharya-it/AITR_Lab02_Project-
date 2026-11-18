@@ -1,0 +1,17 @@
+          condition  decision_cost_per_claim_mean  calibration_error_mean  appropriate_reliance_mean  accepted_error_rate_mean  unnecessary_verification_mean
+             no_cue                        1.1203                  0.1656                     0.4992                    0.1171                         0.2737
+reliability_display                        1.1047                  0.1568                     0.4985                    0.1029                         0.3019
+       adaptive_tcc                        1.0623                  0.1695                     0.5068                    0.0774                         0.3402
+     evidence_aware                        0.9991                  0.1240                     0.5969                    0.0799                         0.2573
+         stage_only                        1.0489                  0.1414                     0.5541                    0.0933                         0.2702
+      evidence_only                        1.0531                  0.1429                     0.5459                    0.0907                         0.2827
+             oracle                        0.8141                  0.0000                     0.8202                    0.0587                         0.1061
+                 metric         target          comparator  mean_diff   ci_low  ci_high  p_raw  rank_biserial  n_pairs  p_holm family
+decision_cost_per_claim evidence_aware              no_cue   -0.12113 -0.14393 -0.10046    0.0       -0.99843       50     0.0   main
+decision_cost_per_claim evidence_aware reliability_display   -0.10553 -0.12640 -0.08593    0.0       -0.99216       50     0.0   main
+decision_cost_per_claim evidence_aware        adaptive_tcc   -0.06313 -0.08007 -0.04646    0.0       -0.86939       50     0.0   main
+                 metric         target    comparator  mean_diff   ci_low  ci_high  p_raw  rank_biserial  n_pairs  p_holm   family
+decision_cost_per_claim evidence_aware    stage_only   -0.04973 -0.06207 -0.03713    0.0       -0.88471       50     0.0 ablation
+decision_cost_per_claim evidence_aware evidence_only   -0.05400 -0.06660 -0.04167    0.0       -0.95059       50     0.0 ablation
+      calibration_error evidence_aware    stage_only   -0.01736 -0.01932 -0.01547    0.0       -1.00000       50     0.0 ablation
+      calibration_error evidence_aware evidence_only   -0.01889 -0.02112 -0.01674    0.0       -1.00000       50     0.0 ablation

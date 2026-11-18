@@ -1,0 +1,8 @@
+no_cue EA lower in 49 ties 0 of 50
+reliability_display EA lower in 49 ties 0 of 50
+adaptive_tcc EA lower in 43 ties 1 of 50
+stage_only EA lower in 45 ties 0 of 50
+evidence_only EA lower in 45 ties 0 of 50
+relative cost reduction vs no_cue 10.812901690073783
+vs tcc 5.943265972135059
+gap closed to oracle vs no_cue 39.56020030481165
