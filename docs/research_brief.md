@@ -1,1 +1,14 @@
+# One-page research brief (Gate G1)
+
+| Field | Project information |
+|---|---|
+| **Review topic and key papers** | Trust calibration in human–agent collaboration for autonomous research. Key papers: Okamura & Yamada 2020a (PLOS ONE, **verified**); Okamura & Yamada 2020b (IEEE Access, **verified**); Mehrotra et al. 2024 (ACM JRC, **verified**); Wischnewski et al. 2023 (CHI, **verified**); Chen et al. 2018 (carried over from the review). |
+| **Research gap** | Existing calibration cues work at the agent or *situation* level (e.g. Okamura & Yamada estimate reliability per weather condition). An autonomous research agent's correctness varies by pipeline stage and by the evidence behind each claim (review §8.2; Eq. 7 "Agent Reliability ≠ Evidence Quality"). Whether claim-level, evidence-aware cues improve calibration has not been tested. |
+| **Research question** | RQ1: Does a published adaptive trust-calibration cue (TCC) reproduce its qualitative effect in a simulated replica of its protocol? RQ2: In a simulated autonomous-research pipeline, does an evidence-aware, per-claim warranted-trust cue lower decision cost and calibration error compared with (B0) no cue, (B1) an agent-level reliability display and (B2) the adaptive TCC? RQ3: Under which conditions does the advantage vanish (evidence noise, uninformative evidence, low compliance, reliability drift)? |
+| **Study pathway** | **A: reproduction + extension**, with a controlled comparison in the extension. |
+| **Dataset or measurement setup** | No external dataset. A seeded generative simulation with known ground-truth P(correct) per claim. 50 evaluation seeds × 300 claims; dev seeds 1000–1004 kept separate. Fully synthetic, so there are no licence or privacy issues. |
+| **Baseline/comparators** | B0 experience-based trust (no cue); B1 agent-level reliability display; B2 Okamura & Yamada TCC (re-implemented from the paper; no official code located, **UNKNOWN** whether any exists). Ablations: stage-only, evidence-only. Reference: oracle. |
+| **Primary metric and control** | Decision cost per claim (verify = 1, accepted wrong claim = 5; lower is better). Held constant: claim stream, user parameters and random draws per seed (common random numbers). Secondary: E_trust = \|T_eff − T_warranted\| (review Eq. 2), appropriate reliance, over- and under-reliance, verification efficiency (review Eq. 5 analogue). |
+| **Computing and risks** | CPU only; a full run takes about 10 s. Main risk: the simulated user model may not reflect real people (mitigated by sensitivity sweeps, and reported as the main limitation). Fallback if reviewers reject simulation: a small human pilot on the same claim streams. |
+| **First executable milestone** | Done: TCC firing-rule unit test and generator-calibration check (`pytest`, 12/12 passing). |
 
