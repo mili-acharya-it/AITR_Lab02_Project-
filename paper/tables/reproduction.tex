@@ -1,0 +1,16 @@
+\begin{tabular}{llrrr}
+\toprule
+Group & Weather & Manual rate & Accuracy & TCCs/user \\
+\midrule
+No TCC & good & 0.174 (0.202) & 0.884 (0.134) & 0.00 \\
+No TCC & bad & 0.335 (0.198) & 0.591 (0.106) & 0.00 \\
+TCC & good & 0.174 (0.202) & 0.884 (0.134) & 0.00 \\
+TCC & bad & 0.779 (0.092) & 0.696 (0.104) & 4.64 \\
+\midrule
+\multicolumn{5}{l}{Paired Wilcoxon tests (n = 2000 simulated users)} \\
+\multicolumn{3}{l}{R1a manual rate bad: tcc - no tcc} & $\Delta$=+0.443 & p $<$0.001 \\
+\multicolumn{3}{l}{R1b manual rate no tcc: bad - good} & $\Delta$=+0.161 & p $<$0.001 \\
+\multicolumn{3}{l}{R1c manual rate tcc: bad - good} & $\Delta$=+0.605 & p $<$0.001 \\
+\multicolumn{3}{l}{R2 accuracy bad: tcc - no tcc} & $\Delta$=+0.106 & p $<$0.001 \\
+\bottomrule
+\end{tabular}
