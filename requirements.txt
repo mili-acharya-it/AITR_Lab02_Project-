@@ -1,0 +1,13 @@
+# Versions below are the ones the results in results/ were generated with
+# (verified: see results/logs/environment.txt). Newer minor versions are likely
+# to work but are [TEST REQUIRED].
+numpy==2.5.3
+scipy==1.18.1
+pandas==3.0.5
+matplotlib==3.11.2
+PyYAML==6.0.3
+pytest==9.1.1
+# optional: only for re-executing the notebook
+nbformat
+nbclient
+ipykernel
